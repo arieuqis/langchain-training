@@ -214,6 +214,93 @@ python 2-chains-and-processing/4-pipeline-example.py
   - **Kotlin**: Coroutines/Flow pipelines
   - **Flutter**: Stream transformations
 
+### 4-memory-management - Memory Management
+
+```bash
+python 4-memory-management/1-simple-history-example.py
+python 4-memory-management/2-sliding-window-history-example.py
+```
+
+**What each file teaches:**
+
+**1-simple-history-example.py**: Basic chat history management
+- Demonstrates `InMemoryChatMessageHistory` for storing conversation history
+- Shows `RunnableWithMessageHistory` for automatic session-based memory
+- Similar to:
+  - **Java Spring**: Session management, conversation scope
+  - **Node.js**: Session middleware, Redis-based sessions
+  - **Kotlin**: State management in coroutines
+
+**2-sliding-window-history-example.py**: Sliding window memory with trimming
+- Uses `trim_messages` to keep only recent messages in history
+- Combines with `RunnableLambda` for input preparation
+- Integrates with `RunnableWithMessageHistory` for session management
+- Similar to:
+  - **Java**: Circular buffers, LRU caches
+  - **Node.js**: Rate limiting with sliding windows
+  - **Kotlin**: Flow with buffer operators
+
+### 5-loaders-and-vector-databases - Document Loaders and Vector Databases
+
+**Prerequisites:**
+```bash
+# Start PostgreSQL with pgvector extension
+docker-compose up -d
+```
+
+```bash
+python 5-loaders-and-vector-databases/1-WebBaseLoader-example.py
+python 5-loaders-and-vector-databases/2-PyPDFLoader-example.py
+python 5-loaders-and-vector-databases/3-PGVector-ingestion.py
+python 5-loaders-and-vector-databases/4-PGVector-search-example.py
+```
+
+**What each file teaches:**
+
+**1-WebBaseLoader-example.py**: Web document loading
+- Demonstrates loading content from websites using `WebBaseLoader`
+- Splits documents into chunks using `RecursiveCharacterTextSplitter`
+- Similar to:
+  - **Java**: Jsoup for web scraping
+  - **Node.js**: Cheerio, Puppeteer
+  - **Kotlin**: Ktor web client
+
+**2-PyPDFLoader-example.py**: PDF document loading
+- Shows how to load and parse PDF files using `PyPDFLoader`
+- Splits PDF content into searchable chunks
+- Similar to:
+  - **Java**: Apache PDFBox, iText
+  - **Node.js**: pdf-parse, pdf-lib
+  - **Kotlin**: Apache PDFBox wrapper
+
+**3-PGVector-ingestion.py**: Vector database ingestion (RAG - Part 1)
+- Demonstrates the RAG ingestion pipeline:
+  1. Loading documents (PDF)
+  2. Splitting into chunks
+  3. Generating embeddings with OpenAI
+  4. Enriching metadata (filtering empty values)
+  5. Storing in PostgreSQL with pgvector extension
+- Uses custom document IDs for tracking
+- Similar to:
+  - **Java Spring**: Elasticsearch indexing, document repositories
+  - **Node.js**: MongoDB indexing, vector databases
+  - **Kotlin**: Exposed ORM, database migrations
+
+**4-PGVector-search-example.py**: Vector database search (RAG - Part 2)
+- Demonstrates semantic search with `similarity_search_with_score`
+- Shows filtering by similarity threshold
+- Multiple query examples
+- Similar to:
+  - **Java Spring**: Elasticsearch queries, similarity search
+  - **Node.js**: MongoDB aggregation, vector search
+  - **Kotlin**: Query DSL, database filtering
+
+**Key Concepts:**
+- **Embeddings**: Numerical representations of text for semantic search
+- **Vector Database**: PostgreSQL with pgvector extension for storing embeddings
+- **RAG (Retrieval-Augmented Generation)**: Combining document retrieval with LLM generation
+- **Similarity Search**: Finding documents by meaning, not just keywords
+
 ## Python Syntax Notes for Java/Kotlin/Node.js Developers
 
 ### Type Hints
@@ -274,12 +361,23 @@ langchain-training/
 │   ├── 2-chains-with-decorators.py   # Using @chain decorator
 │   ├── runnable-lambda.py            # RunnableLambda wrapper
 │   └── 4-pipeline-example.py         # Multi-step pipeline
+├── 4-memory-management/         # Chat history and memory management
+│   ├── 1-simple-history-example.py       # Basic history management
+│   └── 2-sliding-window-history-example.py  # Sliding window memory
+├── 5-loaders-and-vector-databases/  # Document loaders and vector databases
+│   ├── 1-WebBaseLoader-example.py       # Web document loading
+│   ├── 2-PyPDFLoader-example.py         # PDF document loading
+│   ├── 3-PGVector-ingestion.py          # Vector database ingestion
+│   ├── 4-PGVector-search-example.py     # Vector database search
+│   └── example_pdf.pdf                   # Sample PDF for testing
 ├── venv/                       # Virtual environment (isolated Python environment)
 │   ├── bin/                    # Executables (python, pip)
 │   └── lib/                    # Installed packages
 ├── .env.example                # Environment variables template
 ├── .env                        # Your actual environment variables (not in git)
 ├── requirements.txt            # Python dependencies (like package.json)
+├── docker-compose.yml          # PostgreSQL with pgvector setup
+├── init-pgvector.sql           # SQL script to enable pgvector extension
 ├── .gitignore                  # Git ignore rules
 └── README.md                   # This file
 ```
