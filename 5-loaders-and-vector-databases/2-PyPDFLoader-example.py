@@ -1,10 +1,11 @@
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from dotenv import load_dotenv
+import os
 load_dotenv()
 
-# Path to the PDF file
-pdf_path = "/Users/arieuqis/Documents/MBA IA/langchain-training/5-loaders-and-vector-databases/example_pdf.pdf"
+# Path to the PDF file (relative path)
+pdf_path = os.path.join(os.path.dirname(__file__), "example_pdf.pdf")
 
 # Load the PDF using PyPDFLoader
 print(f"Loading content from: {pdf_path}")
